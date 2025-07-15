@@ -25,16 +25,18 @@ import { validateConnection, connectWebsocketClient } from '@/rpc/client'
 import { removeTrailingSlash } from '@/utils/helper'
 import { FiZap } from 'react-icons/fi'
 
-const chainList = [
-  {
-    name: 'Cosmos Hub',
-    rpc: 'https://cosmoshub-rpc.lavenderfive.com',
-  },
-  {
-    name: 'Osmosis',
-    rpc: 'https://rpc-osmosis.ecostake.com',
-  },
-]
+const chainName = process.env.NEXT_CHAIN_NAME ?? '';
+const chainRpc = process.env.NEXT_CHAIN_RPC ?? '';
+
+let chainList: { name: string; rpc: string }[] = [];
+
+if (chainName && chainRpc) {
+  chainList = [{ name: chainName, rpc: chainRpc }];
+} else {
+  chainList = [
+    { name: 'Nibiru Mainnet', rpc: 'https://rpc.nibiru.fi' },
+  ];
+}
 
 export default function Connect() {
   const [address, setAddress] = useState('')
